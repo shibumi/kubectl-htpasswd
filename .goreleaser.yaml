@@ -1,0 +1,26 @@
+project_name: kubectl-htpasswd
+builds:
+  - ldflags:
+      - "-s -w"
+      - "-extldflags=-zrelro"
+      - "-extldflags=-znow"
+      - "-X github.com/shibumi/kubectl-htpasswd/cmd/kubectl-htpasswd/cli.tag={{.Version}}"
+      - "-X github.com/shibumi/kubectl-htpasswd/cmd/kubectl-htpasswd/cli.commit={{.FullCommit}}"
+      - "-X github.com/shibumi/kubectl-htpasswd/cmd/kubectl-htpasswd/cli.date={{.CommitDate}}"
+    env:
+      - "CGO_ENABLED=0"
+      - "GO111MODULE=on"
+      - "GOFLAGS=-mod=readonly -trimpath"
+    goos:
+      - linux
+    goarch:
+      - amd64
+    main: ./cmd/kubectl-htpasswd
+source:
+  enabled: true
+signs:
+  - cmd: cosign
+    signature: "${artifact}.sig"
+    certificate: "${artifact}.pem"
+    args: ["sign-blob", "--oidc-issuer=https://token.actions.githubusercontent.com", "--output-signature=${signature}", "--output-certificate=${certificate}", "${artifact}"]
+    artifacts: all
