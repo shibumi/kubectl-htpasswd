@@ -13,8 +13,8 @@ func (o *RootOptions) AddFlags(cmd *cobra.Command) {
 func New() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:               "kubectl-htpasswd",
-		Short:             "kubectl plugin for generating/managing htpasswd secrets in k8s",
-		Long:              "kubectl plugin for generating/managing htpasswd secrets in kubernetes",
+		Short:             "kubectl plugin for generating htpasswd secrets in k8s",
+		Long:              "kubectl plugin for generating htpasswd secrets in kubernetes",
 		SilenceUsage:      true,
 		DisableAutoGenTag: true,
 	}
