@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"go.uber.org/zap"
 	coreV1 "k8s.io/api/core/v1"
 	metaV1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
@@ -23,9 +24,11 @@ type Client struct {
 	format        string
 	data          []byte
 	key           string
+	logger        *zap.Logger
 }
 
-func NewClient(dryRun bool, namespace, secretName, format, key string, data []byte) (*Client, error) {
+// NewClient will bootstrap a new kubernetes Client with all necessary additional information.
+func NewClient(dryRun bool, namespace, secretName, format, key string, data []byte, logger *zap.Logger) (*Client, error) {
 	// NewNonInteractiveDeferredLoadingClientConfig is being used, because this way we respect the KUBECONFIG
 	// environment variable and the kubeConfig path. It also allows us to get the current selected namespace
 	// from the kube configuration. With BuildConfigFromFlags this is not possible.
@@ -62,6 +65,7 @@ func NewClient(dryRun bool, namespace, secretName, format, key string, data []by
 		format:        format,
 		data:          data,
 		key:           key,
+		logger:        logger,
 	}, nil
 }
 
@@ -81,14 +85,17 @@ func (c *Client) Create() error {
 		Type: "Opaque",
 	}
 	if !c.dryRun {
+		c.logger.Debug("dry-run enabled")
 		_, err := c.secretsClient.Create(context.Background(), &secret, metaV1.CreateOptions{})
 		if err != nil {
 			return err
 		}
+		c.logger.Info("secret created successfully", zap.String("secretName", c.secretName), zap.String("namespace", c.namespace))
 		return nil
 	}
 	switch c.format {
 	case "json":
+		c.logger.Debug("print JSON")
 		result, err := json.MarshalIndent(secret, "", "  ")
 		if err != nil {
 			return err
@@ -96,6 +103,7 @@ func (c *Client) Create() error {
 		fmt.Println(string(result))
 		return nil
 	case "yaml":
+		c.logger.Debug("print YAML")
 		result, err := yaml.Marshal(secret)
 		if err != nil {
 			return err

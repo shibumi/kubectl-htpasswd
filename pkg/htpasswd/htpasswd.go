@@ -6,7 +6,7 @@ const (
 )
 
 // BuildEntry creates a htpasswd compatible entry with a user, password, algorithm
-// and the cost for the algorithm. If the algorithm do not support cost, cost will
+// and the cost for the algorithm. If the algorithm does not support cost, cost will
 // be ignored.
 func BuildEntry(user, password, algorithm string, cost int) (string, error) {
 	switch algorithm {
