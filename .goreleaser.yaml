@@ -13,8 +13,11 @@ builds:
       - "GOFLAGS=-mod=readonly -trimpath"
     goos:
       - linux
+      - windows
+      - darwin
     goarch:
       - amd64
+      - arm64
     main: ./cmd/kubectl-htpasswd
 source:
   enabled: true
