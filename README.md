@@ -1,6 +1,9 @@
 # kubectl-htpasswd
 
-kubectl plugin for easily generating hashed basic auth secrets.
+kubectl-htpasswd is a nginx-ingress compatible basic-auth secret generator.
+Although Kubernetes supports basic-auth secrets, these secrets are incompatible with
+many ingresses such like NGINX ingress. This plugin provides an easy way to create
+bcrypt hashed secrets on the fly without much hassle.
 
 ### Supported hash algorithms
 
@@ -15,10 +18,4 @@ kubectl plugin for easily generating hashed basic auth secrets.
 ### Just print the secret in yaml
 
 `$ kubectl htpasswd create $SECRETNAME $USER1=$PASSWORD1 $USER2=$PASSWORD2 -o yaml`
-
-## Why does this exist
-
-Although Kubernetes supports basic-auth secrets, these secrets are incompatible with
-many ingresses such like NGINX ingress. This plugin provides an easy way to create
-bcrypt hashed secrets on the fly without much hassle.
 
