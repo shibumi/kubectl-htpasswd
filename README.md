@@ -17,5 +17,6 @@ bcrypt hashed secrets on the fly without much hassle.
 
 ### Just print the secret in yaml
 
-`$ kubectl htpasswd create $SECRETNAME $USER1=$PASSWORD1 $USER2=$PASSWORD2 -o yaml`
+`$ kubectl htpasswd create $SECRETNAME $USER1=$PASSWORD1 $USER2=$PASSWORD2 -o yaml --dry-run`
+`
 
