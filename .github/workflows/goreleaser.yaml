@@ -43,7 +43,7 @@ jobs:
       - name: install cosign
         uses: sigstore/cosign-installer@main
         with:
-          cosign-release: 'v1.3.1'
+          cosign-release: 'v1.4.0'
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
         with:
@@ -52,4 +52,3 @@ jobs:
           args: release --rm-dist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COSIGN_EXPERIMENTAL: 1
