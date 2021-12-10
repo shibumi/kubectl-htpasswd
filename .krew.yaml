@@ -34,4 +34,4 @@ spec:
           os: windows
           arch: amd64
       {{addURIAndSha "https://github.com/shibumi/kubectl-htpasswd/releases/download/{{ .TagName }}/kubectl-htpasswd_{{ .TagName }}_windows_amd64.tar.gz" .TagName }}
-      bin: kubectl-tree.exe
+      bin: kubectl-htpasswd.exe
