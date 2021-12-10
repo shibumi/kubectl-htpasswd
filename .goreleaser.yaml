@@ -19,6 +19,14 @@ builds:
       - amd64
       - arm64
     main: ./cmd/kubectl-htpasswd
+archives:
+  - builds:
+      - kubectl-evict-pod
+    name_template: "{{ .ProjectName }}_{{ .Tag }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}"
+    wrap_in_directory: "false"
+    format: tar.gz
+    files:
+      - LICENSE
 source:
   enabled: true
 signs:
